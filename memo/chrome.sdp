@@ -1,0 +1,129 @@
+--- 必須フィールド ---
+v=0
+# version, 0 しかない
+
+o=- 2001435354275340093 2 IN IP4 127.0.0.1
+# origin
+# ユーザ
+# セッションID
+# バージョン ID
+# ネットワーク種別: IN (internet)
+# アドレス種別: IP4
+# アドレス: 127.0.0.1 (なぜかループバック)
+
+s=- # サブジェクト
+t=0 0 # タイム
+
+--- メディアストリーム ---
+a=group:BUNDLE audio video
+
+# WMS WebRTC メディアストリーム
+a=msid-semantic: WMS O6LyT4prvii82E0eghob3XgVxLPmhZLOvRRk
+
+---- メディア行(audio) ----
+m=audio 51430 RTP/SAVPF 111 103 104 9 0 8 106 105 13 126
+
+# コネクションデータフィールド
+# 実際は ICE で ip/port を決めるので、ここの値は使わないのでローカル？
+c=IN IP4 10.60.139.101
+
+# ポート:53874(実際は下の candidate のポートが使われるため無視)
+a=rtcp:53874 IN IP4 10.60.139.101
+
+a=candidate:583474204 1 udp 2122260223 10.60.139.101 51430 typ host generation 0
+a=candidate:583474204 2 udp 2122260222 10.60.139.101 53874 typ host generation 0
+a=candidate:1816453356 1 tcp 1518280447 10.60.139.101 0 typ host tcptype active generation 0
+a=candidate:1816453356 2 tcp 1518280446 10.60.139.101 0 typ host tcptype active generation 0
+
+
+# ICE のユーザフラグメント/パスワード
+# BUNDLE の場合はここが使われる？
+a=ice-ufrag:LLE9shLM2KY6NgqY
+a=ice-pwd:Qu8e+K4FTqkINJ50YtJcOvk6
+
+# DTLS コネクションの確立に用いられる SHA-256 フィンガープリント
+a=fingerprint:sha-256 6D:99:FB:EA:F5:D6:60:D4:99:1E:87:1E:08:F8:BD:E8:83:0C:23:91:E8:EE:2C:16:4F:41:83:BE:F5:72:B6:F2
+
+# active/passive 両方(どっちから確立もできる)
+a=setup:actpass
+
+# メディアID属性
+a=mid:audio
+
+a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time
+
+# 受信のみ
+a=recvonly
+
+# 多重化可能
+a=rtcp-mux
+
+# 利用可能なコーデック
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10; useinbandfec=1
+a=rtpmap:103 ISAC/16000
+a=rtpmap:104 ISAC/32000
+a=rtpmap:9 G722/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:106 CN/32000
+a=rtpmap:105 CN/16000
+a=rtpmap:13 CN/8000
+a=rtpmap:126 telephone-event/8000
+
+
+a=maxptime:60
+
+
+---- メディア行(video) ----
+m=video 57728 RTP/SAVPF 100 116 117 96
+c=IN IP4 10.60.139.101
+a=rtcp:62061 IN IP4 10.60.139.101
+
+a=candidate:583474204 1 udp 2122260223 10.60.139.101 57728 typ host generation 0
+a=candidate:583474204 2 udp 2122260222 10.60.139.101 62061 typ host generation 0
+a=candidate:1816453356 1 tcp 1518280447 10.60.139.101 0 typ host tcptype active generation 0
+a=candidate:1816453356 2 tcp 1518280446 10.60.139.101 0 typ host tcptype active generation 0
+
+a=ice-ufrag:LLE9shLM2KY6NgqY
+a=ice-pwd:Qu8e+K4FTqkINJ50YtJcOvk6
+
+a=fingerprint:sha-256 6D:99:FB:EA:F5:D6:60:D4:99:1E:87:1E:08:F8:BD:E8:83:0C:23:91:E8:EE:2C:16:4F:41:83:BE:F5:72:B6:F2
+a=setup:actpass
+
+a=mid:video
+a=extmap:2 urn:ietf:params:rtp-hdrext:toffset
+a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time
+a=extmap:4 urn:3gpp:video-orientation
+
+a=sendrecv
+a=rtcp-mux
+
+a=rtpmap:100 VP8/90000
+
+## フィードバックメッセージ
+a=rtcp-fb:100 ccm fir
+a=rtcp-fb:100 nack
+a=rtcp-fb:100 nack pli
+a=rtcp-fb:100 goog-remb
+
+a=rtpmap:116 red/90000
+a=rtpmap:117 ulpfec/90000
+a=rtpmap:96 rtx/90000
+a=fmtp:96 apt=100
+
+# ssrc RTCP 規格名(CNAME)
+# メディアストリームID, メディアストリームラベル, ラベル
+a=ssrc-group:FID 2053406392 3078316976
+a=ssrc:2053406392 cname:Co/YUqTvZ9QKvlNb
+a=ssrc:2053406392 msid:O6LyT4prvii82E0eghob3XgVxLPmhZLOvRRk fa60d058-3525-4d59-9b6d-a0e7fa5a8e5e
+a=ssrc:2053406392 mslabel:O6LyT4prvii82E0eghob3XgVxLPmhZLOvRRk
+a=ssrc:2053406392 label:fa60d058-3525-4d59-9b6d-a0e7fa5a8e5e
+a=ssrc:3078316976 cname:Co/YUqTvZ9QKvlNb
+a=ssrc:3078316976 msid:O6LyT4prvii82E0eghob3XgVxLPmhZLOvRRk fa60d058-3525-4d59-9b6d-a0e7fa5a8e5e
+a=ssrc:3078316976 mslabel:O6LyT4prvii82E0eghob3XgVxLPmhZLOvRRk
+a=ssrc:3078316976 label:fa60d058-3525-4d59-9b6d-a0e7fa5a8e5e
+
+
+# ssrc ではなく a=msid が推奨されている
