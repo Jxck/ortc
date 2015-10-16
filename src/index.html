@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>sample</title>
+<style>
+video {
+  border: 1px solid #ccc;
+  width: 30%;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  height: 100em;
+}
+
+strong {
+  color: red;
+  font-size: 120%;
+}
+
+</style>
+
+<p>ID: <strong id="id"></strong></p>
+
+call to:
+<input id="peer" type="text" />
+<input id="connect" type="button" value="connect" />
+
+<input id="start" type="button" value="start" />
+<input id="size" type="button" value="size" />
+<script>
+document.getElementById('size').onclick = () => {
+  let videos = document.querySelectorAll('video');
+  let width0 = videos[0].style.width;
+  let width1 = videos[1].style.width;
+  videos[0].style.width = (width0 === '100%') ? '30%' : '100%';
+  videos[1].style.width = (width1 === '100%') ? '30%' : '100%';
+};
+</script>
+
+<div>
+  <video id="local" autoplay controls></video>
+  <video id="remote" autoplay controls></video>
+</div>
+
+<input id="text" type="text" />
+<input id="send" type="button" value="send" />
+<textarea id="view" wrap="off"></textarea>
+
+<script src="ws.js"></script>
+<script src="ortc.js"></script>
