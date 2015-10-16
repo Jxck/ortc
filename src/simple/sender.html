@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ORTC Sender Demo</title>
+    <style>
+      .wrapper {
+        display: flex;
+      }
+      .inner {
+        flex-grow: 1;
+      }
+
+      video {
+        width: 120px;
+        border: 1px solid #ccc;
+      }
+      textarea {
+        width: 100%;
+        height: 100em;
+      }
+      h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 80%;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="wrapper">
+      <div class="inner">
+        <button id="start" type="button">Start Video Sender</button>
+        <h3>[Capabilities] to Receiver</h3>
+        <textarea id="local_caps"></textarea>
+      </div>
+
+      <div class="inner">
+        <button id="accept" type="button">Accept remote Capabilites</button>
+        <h3>[Capabilities] from Receiver</h3>
+        <textarea id="remote_caps"></textarea>
+      </div>
+
+      <div class="inner">
+        <button id="send" type="button">Send</button>
+        <h3>[Params] to Receiver</h3>
+        <textarea id="local_params"></textarea>
+      </div>
+    </div>
+
+    <script src="ws.js"></script>
+    <script src="util.js"></script>
+    <script src="sender.js"></script>
+  </body>
+</html>
+
