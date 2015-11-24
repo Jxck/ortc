@@ -195,8 +195,8 @@ class ORTC extends EventEmitter {
     // RTCIceGatherer
     this.iceGatherer = new RTCIceGatherer(iceGatherOptions);
     this.iceGatherer.onlocalcandidate = (e) => {
-      console.log(e);
       let candidate = e.candidate;
+      console.log(JSON.stringify(candidate));
 
       // complete が実装されてなく {} が上がってくるので
       // 絶対ありそうなプロパティの有無でそっちを調べている
@@ -380,7 +380,7 @@ window.onload = () => {
 
       // 両方が終わったら start() できる。
       Promise.all([remoteParams, localCandidateComplete]).then((e) => {
-        console.clear();
+        // console.clear();
         console.info('------------ start now ------------');
         let params = e[0];
         ortc.start(params);

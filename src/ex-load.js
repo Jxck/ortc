@@ -1,8 +1,8 @@
-(function() {
+window.addEventListener('load', function() {
   "use strict";
 
-  document.body.style.padding = "1em";
-  document.body.style.backgroundImage = "url()";
+  // document.body.style.padding = "1em";
+  // document.body.style.backgroundImage = "url()";
 
   let n = 27;
   for(let i=1; i<n; i++) {
@@ -14,8 +14,8 @@
     xhr.send(null);
 
     let src = xhr.responseText;
-    let pre = document.querySelector(`pre[data-ex="${ex}"]`);
+    let pre = document.querySelector(`pre[data-example="${ex}"]`);
     if (pre === null) continue;
     pre.textContent = src;
   }
-})();
+});

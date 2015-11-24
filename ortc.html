@@ -5,6 +5,7 @@
         <title>Object RTC (ORTC) API for WebRTC</title>
         <script src="http://www.w3.org/Tools/respec/respec-w3c-common" async class="remove"></script>
         <script src="respec-config.js" class="remove"></script>
+        <script src="src/ex-load.js"></script>
     </head>
     <body>
         <section id="abstract">
@@ -257,16 +258,7 @@
                 <p>
                     The <dfn>RTCIceCandidate</dfn> object includes information relating to an ICE candidate.
                 </p>
-                <pre class="example highlight">
-{
-  foundation: "abcd1234",
-  priority: 1694498815,
-  ip: "192.0.2.33",
-  protocol: "udp",
-  port: 10000,
-  type: "host"
-};
-                </pre>
+                <pre class="example highlight" data-example="01"></pre>
                 <dl class="idl" title="typedef (RTCIceCandidate or RTCIceCandidateComplete) RTCIceGatherCandidate">
                 </dl>
                 <dl class="idl" title="dictionary RTCIceCandidate">
@@ -573,12 +565,7 @@
                 <p>
                     An example of an array of <code><a>RTCIceServer</a></code> objects:
                 </p>
-                <pre class="example highlight">
-[
-  { urls: "stun:stun1.example.net" },
-  { urls: "turn:turn.example.org", username: "user", credential: "myPassword" }
-]
-                </pre>
+                <pre class="example highlight" data-example="02"></pre>
                 <dl class="idl" title="dictionary RTCIceServer">
                     <dt>(DOMString or sequence&lt;DOMString&gt;) urls</dt>
                     <dd>
@@ -606,143 +593,7 @@
             </section>
             <section id="rtcicegatherer-initial-example*">
                 <h3>Example</h3>
-                <pre class="example highlight">
-// Example to demonstrate use of RTCIceCandidateComplete
-// Include some helper functions
-import "helper.js";
-
-// Create ICE gather options
-var gatherOptions = new RTCIceGatherOptions();
-gatherOptions.gatherPolicy = RTCIceGatherPolicy.relay;
-gatherOptions.iceServers = [
-  { urls: "stun:stun1.example.net" },
-  { urls: "turn:turn.example.org", username: "user", credential: "myPassword" }
-];
-
-// Create IceGatherer object
-var iceGatherer = new RTCIceGatherer(gatherOptions);
-
-// Handle state changes
-iceGatherer.ongathererstatechange = function(event) {
-  myIceGathererStateChange("iceGatherer", event.state);
-};
-
-// Prepare to signal local candidates
-iceGatherer.onlocalcandidate = function(event) {
-  mySendLocalCandidate(event.candidate);
-};
-
-// Set up response function
-mySignaller.onResponse = function(responseSignaller, response) {
-  // We may get N responses
-  // ... deal with the N responses as shown in Example 5 of Section 3.11.
-};
-
-mySignaller.send({
-  "ice": iceGatherer.getLocalParameters()
-});
-                </pre>
-                <pre class="example highlight">
-// Helper functions used in all the examples (helper.js)
-function trace(text) {
-  // This function is used for logging.
-  text = text.trimRight();
-  if (window.performance) {
-    var now = (window.performance.now() / 1000).toFixed(3);
-    console.log(now + ": " + text);
-  } else {
-    console.log(text);
-  }
-}
-
-function errorHandler(error) {
-  trace("Error encountered: " + error.name);
-}
-
-function mySendLocalCandidate(candidate, component, kind, parameters) {
-  // Set default values
-  kind = kind || "all";
-  component = component || RTCIceComponent.RTP;
-  parameters = parameters || null;
-
-  // Signal the local candidate
-  mySignaller.mySendLocalCandidate({
-    "candidate": candidate,
-    "component": component,
-    "kind": kind,
-    "parameters": parameters
-  });
-}
-
-function myIceGathererStateChange(name, state) {
-  switch (state) {
-    case RTCIceGathererState.new:
-      trace("IceGatherer: " + name + " Has been created");
-      break;
-    case RTCIceGathererState.gathering:
-      trace("IceGatherer: " + name + " Is gathering candidates");
-      break;
-    case RTCIceGathererState.complete:
-      trace("IceGatherer: " + name + " Has finished gathering (for now)");
-      break;
-    case RTCIceGathererState.closed:
-      trace("IceGatherer: " + name + " Is closed");
-      break;
-    default:
-      trace("IceGatherer: " + name + " Invalid state");
-  }
-}
-
-function myIceTransportStateChange(name, state) {
-  switch (state) {
-    case RTCIceTransportState.new:
-      trace("IceTransport: " + name + " Has been created");
-      break;
-    case RTCIceTransportState.checking:
-      trace("IceTransport: " + name + " Is checking");
-      break;
-    case RTCIceTransportState.connected:
-      trace("IceTransport: " + name + " Is connected");
-      break;
-    case RTCIceTransportState.disconnected:
-      trace("IceTransport: " + name + " Is disconnected");
-      break;
-    case RTCIceTransportState.completed:
-      trace("IceTransport: " + name + " Has finished checking (for now)");
-      break;
-    case RTCIceTransportState.failed:
-      trace("IceTransport: " + name + " Has failed");
-      break;
-    case RTCIceTransportState.closed:
-      trace("IceTransport: " + name + " Is closed");
-      break;
-    default:
-      trace("IceTransport: " + name + " Invalid state");
-  }
-}
-
-function myDtlsTransportStateChange(name, state){
-  switch(state){
-  case RTCDtlsTransportState.new:
-     trace('DtlsTransport: ' + name + ' Has been created');
-     break;
-  case RTCDtlsTransportState.connecting:
-     trace('DtlsTransport: ' + name + ' Is connecting');
-     break;
-  case RTCDtlsTransportState.connected:
-     trace('DtlsTransport: ' + name + ' Is connected');
-     break;
-  case RTCDtlsTransportState.failed:
-     trace('DtlsTransport: ' + name + ' Has failed');
-     break;
-  case RTCDtlsTransportState.closed:
-     trace('DtlsTransport: ' + name + ' Is closed');
-     break;
-  default:
-     trace('DtlsTransport: ' + name + ' Invalid state');
-  }
-}
-                </pre>
+                <pre class="example highlight" data-example="03"></pre>
             </section>
         </section>
         <section id="rtcicetransport*">

@@ -1,12 +1,12 @@
 // Example of RTCIceCandidate
-// Assume that we have a way to signaling by signaller.
+// Assume that we have a way to signaling by signaller
 
 // Create ICE gather options
 let rtcIceGatherOptions = new RTCIceGatherOptions({
   gatherPolicy: "relay",
   iceservers: [
     { urls: "stun:stun.example.net" },
-    { urls: "turn:turn.example.org", username: "myName", credential: "myPassword" }
+    { urls: "turn:turn.example.net", username: "myName", credential: "myPassword" }
   ],
 });
 
@@ -25,13 +25,13 @@ rtcIceGatherer.onlocalcandidate = (event) => {
     console.log("all candidates are gathered");
   }
 
-  // Sending gathered candidate to remote via signaling.
+  // Sending gathered candidate to remote via signaling
   signaler.send("candidate", {
     candidate: event.candidate
   });
 };
 
-// Receive remote candidate from signaling
+// Receive remote candidate via signaling
 signaler.oncandidate = (candidateRemote) => {
   // May get multiple candidates
   // Handling Example are shown in Example 5

@@ -1,8 +1,11 @@
 {
-  foundation: "abcd1234",
-  priority: 1694498815,
+  foundation: "1",
+  priority: 2130706431,
   ip: "192.0.2.33",
   protocol: "udp",
   port: 10000,
-  type: "host"
-};
+  type: "host",
+  tcpType: "active",
+  relatedAddress: null,
+  relatedPort: 0
+}
